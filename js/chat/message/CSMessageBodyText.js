@@ -1,5 +1,4 @@
-export class CSMessageBodyText extends HTMLElement {
-
+export default class CSMessageBodyText extends HTMLElement {
     connectedCallback() {
         // браузер вызывает этот метод при добавлении элемента в документ
         // (может вызываться много раз, если элемент многократно добавляется/удаляется)
@@ -24,8 +23,9 @@ export class CSMessageBodyText extends HTMLElement {
     }
 
 
-    constructor() {
+    constructor(text) {
         super();
-
+        this.text = text
+        this.innerHTML = text
     }
 }

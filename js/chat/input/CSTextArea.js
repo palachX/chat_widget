@@ -1,9 +1,10 @@
-import {CSContent} from "./CSContent";
-
-export class CSClose extends HTMLElement {
+export class CSTextArea extends HTMLTextAreaElement {
 
 
     connectedCallback() {
+        this.placeholder = 'Введите ваше сообещние...'
+        this.name = 'message_text'
+
         // браузер вызывает этот метод при добавлении элемента в документ
         // (может вызываться много раз, если элемент многократно добавляется/удаляется)
     }
@@ -27,23 +28,8 @@ export class CSClose extends HTMLElement {
     }
 
 
-    constructor() {
+    constructor(){
         super();
-        this.addEventListener('click', e => this.closeContent());
     }
-
-    closeContent() {
-        const content = document.getElementsByTagName('cs-chat-content')
-        content[0].setAttribute('close','')
-        this.hidden = true
-        const messages = document.getElementsByTagName('cs-chat-messages')
-        const input = document.getElementsByTagName('cs-chat-input')
-        messages[0].toggleAttribute('hidden')
-        input[0].toggleAttribute('hidden')
-
-        const message_close = document.getElementsByTagName('cs-chat-message-close')
-        message_close[0].hidden = false
-    }
-
 
 }

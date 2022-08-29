@@ -1,5 +1,4 @@
-export class CSMessageBodyTime extends HTMLElement {
-
+export default class CSMessageBodyTime extends HTMLElement {
     connectedCallback() {
         // браузер вызывает этот метод при добавлении элемента в документ
         // (может вызываться много раз, если элемент многократно добавляется/удаляется)
@@ -24,8 +23,9 @@ export class CSMessageBodyTime extends HTMLElement {
     }
 
 
-    constructor() {
+    constructor(time) {
         super();
-
+        this.time = time
+        this.innerText = time
     }
 }

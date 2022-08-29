@@ -1,14 +1,18 @@
 import {CSWidget} from "./CSWidget";
 import {CSBody} from "./chat/CSBody";
-import {CSContent} from "./chat/CSContent";
-import {CSMessages} from "./chat/CSMessages";
-import {CSMessage} from "./chat/message/CSMessage";
-import {CSMessageBody} from "./chat/message/CSMessageBody";
-import {CSMessageBodyText} from "./chat/message/CSMessageBodyText";
-import {CSMessageBodyTime} from "./chat/message/CSMessageBodyTime";
-import {CSClose} from "./chat/CSClose";
-import {CSInput} from "./chat/CSInput";
-import {CSMessageClose} from "./chat/CSMessageClose";
+import {CSContent} from "./chat/content/CSContent";
+import {CSMessages} from "./chat/content/CSMessages";
+import {CSClose} from "./chat/content/CSClose";
+import {CSMessageClose} from "./chat/content/CSMessageClose";
+import {CSInput} from "./chat/input/CSInput";
+import {CSTextArea} from "./chat/input/CSTextArea";
+import {CSSend} from "./chat/input/CSSend";
+import CSMessage from "./chat/message/CSMessage";
+import CSMessageBody from "./chat/message/CSMessageBody";
+import CSMessageBodyText from "./chat/message/CSMessageBodyText";
+import CSMessageBodyTime from "./chat/message/CSMessageBodyTime";
+
+
 
 
 const elements_widget = [
@@ -16,6 +20,30 @@ const elements_widget = [
         name: 'cs-widget',
         class: CSWidget,
         create: true
+    },
+    {
+        name: 'cs-chat-message',
+        class: CSMessage,
+        create: false,
+        children: [
+            {
+                name: 'cs-chat-message-body',
+                class: CSMessageBody,
+                create: false,
+                children: [
+                    {
+                        name: 'cs-chat-message-body-text',
+                        class: CSMessageBodyText,
+                        create: false
+                    },
+                    {
+                        name: 'cs-chat-message-body-time',
+                        class: CSMessageBodyTime,
+                        create: false
+                    },
+                ]
+            },
+        ]
     },
     {
         name: 'cs-chat-body',
@@ -43,7 +71,21 @@ const elements_widget = [
             {
                 name: 'cs-chat-input',
                 class: CSInput,
-                create: true
+                create: true,
+                children: [
+                    {
+                        name: 'cs-chat-textarea',
+                        class: CSTextArea,
+                        create: true,
+                        extends: 'textarea'
+                    },
+                    {
+                        name: 'cs-chat-send',
+                        class: CSSend,
+                        create: true,
+                        parent: 'cs-chat-input'
+                    },
+                ]
             },
         ]
     },
@@ -59,10 +101,18 @@ const elements_widget = [
 const create_elements = (elements, parent_element_append = null, create_element = null) => {
 
     elements.forEach((element, key) => {
-        customElements.define(element.name, element.class);
+        if (element.extends)
+            customElements.define(element.name, element.class, {extends: element.extends});
+        else
+            customElements.define(element.name, element.class);
 
         if (element.create) {
-            create_element = document.createElement(element.name)
+            if (element.extends) {
+                create_element = document.createElement(element.extends, {is: element.name})
+            } else {
+                create_element = document.createElement(element.name)
+            }
+
 
             if (!parent_element_append) {
                 parent_element_append = document.body
@@ -77,8 +127,6 @@ const create_elements = (elements, parent_element_append = null, create_element 
                 parent_element_append = parent_element_append.appendChild(create_element)
 
             }
-
-
         }
 
         if (element.children) {
@@ -91,3 +139,4 @@ const create_elements = (elements, parent_element_append = null, create_element 
 document.addEventListener("DOMContentLoaded", function (event) {
     create_elements(elements_widget)
 })
+

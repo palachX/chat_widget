@@ -1,12 +1,6 @@
-import CSMessageBody from "./CSMessageBody";
-
-export default class CSMessage extends HTMLElement {
-    time;
-    text;
+export class CSSend extends HTMLElement {
 
     connectedCallback() {
-        const message_body = new CSMessageBody({text: this.text, time: this.time})
-        this.appendChild(message_body)
         // браузер вызывает этот метод при добавлении элемента в документ
         // (может вызываться много раз, если элемент многократно добавляется/удаляется)
     }
@@ -30,13 +24,14 @@ export default class CSMessage extends HTMLElement {
     }
 
 
-    constructor({text, time}) {
+    constructor() {
         super();
-        this.time = time;
-        this.text = text
-        // const message_html = document.createElement(this.#name)
-        // message_html.text = text
-        // message_html.time = time
-        // document.getElementsByTagName('cs-chat-messages')[0].append(message_html)
+        this.addEventListener('click', function () {
+            this.style.transform = "scale(0.8)";
+            setTimeout(()=>{
+                this.style.transform = "scale(1)";
+            },100)
+        })
     }
+
 }

@@ -1,12 +1,7 @@
-import CSMessageBody from "./CSMessageBody";
+export class CSClose extends HTMLElement {
 
-export default class CSMessage extends HTMLElement {
-    time;
-    text;
 
     connectedCallback() {
-        const message_body = new CSMessageBody({text: this.text, time: this.time})
-        this.appendChild(message_body)
         // браузер вызывает этот метод при добавлении элемента в документ
         // (может вызываться много раз, если элемент многократно добавляется/удаляется)
     }
@@ -30,13 +25,23 @@ export default class CSMessage extends HTMLElement {
     }
 
 
-    constructor({text, time}) {
+    constructor() {
         super();
-        this.time = time;
-        this.text = text
-        // const message_html = document.createElement(this.#name)
-        // message_html.text = text
-        // message_html.time = time
-        // document.getElementsByTagName('cs-chat-messages')[0].append(message_html)
+        this.addEventListener('click', e => this.closeContent());
     }
+
+    closeContent() {
+        const content = document.getElementsByTagName('cs-chat-content')
+        content[0].setAttribute('close','')
+        this.hidden = true
+        const messages = document.getElementsByTagName('cs-chat-messages')
+        const input = document.getElementsByTagName('cs-chat-input')
+        messages[0].toggleAttribute('hidden')
+        input[0].toggleAttribute('hidden')
+
+        const message_close = document.getElementsByTagName('cs-chat-message-close')
+        message_close[0].hidden = false
+    }
+
+
 }

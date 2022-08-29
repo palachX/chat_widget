@@ -1,14 +1,28 @@
-import CSMessageBody from "./CSMessageBody";
+import CSMessage from "../message/CSMessage";
 
-export default class CSMessage extends HTMLElement {
-    time;
-    text;
+export class CSMessages extends HTMLElement {
+
+    messages = []
+    #default_message = {
+        text: 'Напиши Привет или Пожелай доброго дня, мы уже настроили чат для автоматических ответов!',
+        time: ''
+    }
 
     connectedCallback() {
-        const message_body = new CSMessageBody({text: this.text, time: this.time})
-        this.appendChild(message_body)
+        this.appendDefaultMessage()
         // браузер вызывает этот метод при добавлении элемента в документ
         // (может вызываться много раз, если элемент многократно добавляется/удаляется)
+    }
+
+
+    appendDefaultMessage() {
+        const message = new CSMessage(this.#default_message)
+        this.addMessage(message)
+    }
+
+    addMessage(message) {
+        this.messages.push(message)
+        this.appendChild(message)
     }
 
     disconnectedCallback() {
@@ -30,13 +44,7 @@ export default class CSMessage extends HTMLElement {
     }
 
 
-    constructor({text, time}) {
+    constructor() {
         super();
-        this.time = time;
-        this.text = text
-        // const message_html = document.createElement(this.#name)
-        // message_html.text = text
-        // message_html.time = time
-        // document.getElementsByTagName('cs-chat-messages')[0].append(message_html)
     }
 }
