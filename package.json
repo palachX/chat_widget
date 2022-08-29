@@ -1,0 +1,22 @@
+{
+  "name": "widget",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": "",
+  "license": "",
+  "author": "",
+  "scripts": {
+    "build": "parcel build index.html",
+    "dev": "parcel index.html --open",
+    "start": "npm run build && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.13",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
+    "parcel-bundler": "^1.12.3"
+  }
+}
